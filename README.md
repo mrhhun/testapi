@@ -99,6 +99,7 @@ The request body needs to be empty.
 ```
 DELETE /results/PF6MflPDcuhWobZcgmJy5
 Authorization: Bearer <YOUR TOKEN>
+```
 
 ### Get all runners ###
 
