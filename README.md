@@ -1,8 +1,8 @@
-# Simple Books API #
+# Hun Cross Country API #
 
-This API allows you to reserve a book.
+This API allows you to track and record race times for Hun Cross Country runners
 
-The API is available at `https://simple-books-api.glitch.me`
+The API is available at `https://hunxcapi.hunschool.org`
 
 ## Endpoints ##
 
@@ -12,93 +12,105 @@ GET `/status`
 
 Returns the status of the API.
 
-### List of books ###
+### List of races ###
 
-GET `/books`
+GET `/races`
 
-Returns a list of books.
+Returns a list of races from the current cross-country season.
 
 Optional query parameters:
 
-- type: fiction or non-fiction
-- limit: a number between 1 and 20.
+- date: the date of the race (Format mm-dd)
+- location: the location of the race
 
 
-### Get a single book ###
+### Get a single race ###
 
-GET `/books/:bookId`
+GET `/races/:raceId`
 
-Retrieve detailed information about a book.
+Retrieve detailed information about a race.
 
 
-### Submit an order ###
+### Submit a result ###
 
-POST `/orders`
+POST `/results`
 
-Allows you to submit a new order. Requires authentication.
+Allows you to submit an individual result for a race. Requires authentication.
 
 The request body needs to be in JSON format and include the following properties:
 
- - `bookId` - Integer - Required
- - `customerName` - String - Required
+ - `resultId` - Integer - The unique ID of the result. Required
+ - `runnerId` - Integer - The unique ID of a Hun runner. Required
+ - `raceID` - Integer - The unique ID of the race. Required
+ - `location` - String - The name of the location where the race was run. Required
+ - `time` - Integer - The time (in seconds) of a runner for the race. Required
+ - `name` - String - The name of the runner. Optional
 
 Example
 ```
-POST /orders/
+POST /results/
 Authorization: Bearer <YOUR TOKEN>
 
 {
-  "bookId": 1,
-  "customerName": "John"
+  "resultID": 26,
+  "runnerId": 1,
+  "raceID": 5,
+  "location": "Pennington",
+  "time": 1101,
+  "name": "Zach Huffman"
 }
 ```
 
 The response body will contain the access token.
 
-### Get all orders ###
+### Update a result ###
 
-GET `/orders`
+PATCH `/results/:resultId`
 
-Allows you to view all orders. Requires authentication.
-
-### Get an order ###
-
-GET `/orders/:orderId`
-
-Allows you to view an existing order. Requires authentication.
-
-### Update an order ###
-
-PATCH `/orders/:orderId`
-
-Update an existing order. Requires authentication.
+Update an existing result. Requires authentication.
 
 The request body needs to be in JSON format and allows you to update the following properties:
 
- - `customerName` - String
+ - `location` - String
+ - `time` - Integer
+ - `name` - String
 
  Example
 ```
-PATCH /orders/PF6MflPDcuhWobZcgmJy5
+PATCH /results/PF6MflPDcuhWobZcgmJy5
 Authorization: Bearer <YOUR TOKEN>
 
 {
-  "customerName": "John"
+  "location": "Peddie",
+  "time": 1,
+  "name": "Barry Allen"
 }
 ```
 
-### Delete an order ###
+### Delete a result ###
 
-DELETE `/orders/:orderId`
+DELETE `/results/:resultId`
 
-Delete an existing order. Requires authentication.
+Delete an existing result. Requires authentication.
 
 The request body needs to be empty.
 
  Example
 ```
-DELETE /orders/PF6MflPDcuhWobZcgmJy5
+DELETE /results/PF6MflPDcuhWobZcgmJy5
 Authorization: Bearer <YOUR TOKEN>
+
+### Get all runners ###
+
+GET `/runners`
+
+Allows you to view all runners. Requires authentication.
+
+### Get a runner ###
+
+GET `/runners/:runnerId`
+
+Allows you to view an existing runner. Requires authentication.
 ```
 
 ## API Authentication ##
